@@ -1,5 +1,5 @@
 <script setup>
-import { useTemplateRef } from 'vue'
+import { nextTick, onBeforeUpdate, onUpdated, ref } from 'vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import { useBagStore } from '@/stores/bag.js'
 
@@ -10,21 +10,23 @@ import IconDraggable from '@/components/icons/IconDraggable.vue'
 
 const bagStore = useBagStore()
 
-const sortable = useTemplateRef('sortable')
-useSortable(sortable, bagStore.bag, {
-  handle: '.handle'
+const sortableItem = ref('sortableItem')
+const sortable = useSortable(sortableItem, bagStore.bag, {
+  // handle: '.handle'
 })
+
 </script>
 
 <template>
   <div v-if="bagStore.bag.length === 0" class="empty-bag">You have no items in bag</div>
   <div v-else class="bag">
     <BagHeader />
-    <div class="bag__items" ref="sortable">
+    <div class="bag__items" ref="sortableItem">
       <BagItem
         v-for="item in bagStore.bag"
         v-model:name="item.name"
-        v-model:weight="item.weight"
+        v-model:weightInteger="item.weightInteger"
+        v-model:weightFractional="item.weightFractional"
         v-model:quantity="item.quantity"
         :key="item.id"
         @remove="bagStore.remove(item.id)"

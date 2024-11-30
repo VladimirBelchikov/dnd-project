@@ -3,15 +3,19 @@ import { defineStore } from 'pinia'
 
 export const useBagStore = defineStore('bag', () => {
   const bag = ref([
-    { id: 1, name: 'Дрова', quantity: 2, weight: '2' },
-    { id: 2, name: 'Мотыга', quantity: 4, weight: '1' },
-    { id: 3, name: 'Кирпичи', quantity: 6, weight: '16' },
-    { id: 4, name: 'Металлолом', quantity: 3, weight: '3' },
-    { id: 5, name: 'Детали', quantity: 3, weight: '6' }
+    { id: 1, name: 'Дрова', quantity: 2, weightInteger: 2, weightFractional: 0 },
+    { id: 2, name: 'Мотыга', quantity: 4, weightInteger: 1, weightFractional: 3 },
+    { id: 3, name: 'Кирпичи', quantity: 6, weightInteger: 16, weightFractional: 0 },
+    { id: 4, name: 'Металлолом', quantity: 3, weightInteger: 3, weightFractional: 2 },
+    { id: 5, name: 'Детали', quantity: 3, weightInteger: 6, weightFractional: 1 }
   ])
 
   const bagTotal = computed(() => {
+    const frac = bag.value.reduce((item, nextItem) => {
+      return item.weightInteger * 6 + item.weightFractional
+    })
 
+    return frac // @todo
   })
 
   const remove = (id) => {
