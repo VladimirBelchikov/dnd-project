@@ -1,26 +1,41 @@
 <script setup>
 import { computed } from 'vue'
+import IconDraggable from '@/components/icons/IconDraggable.vue'
 
 const name = defineModel('name')
 const weightInteger = defineModel('weightInteger')
 const weightFractional = defineModel('weightFractional')
 const quantity = defineModel('quantity')
 
-const subtotal = computed(() => {
-  const totalFractional = (weightInteger.value * 6 + +weightFractional.value) * quantity.value
-  const sumInt = Math.floor(totalFractional / 6)
-  const fractional = totalFractional % 6
-  return fractional !== 0 ? `${ sumInt } ${ fractional }/6` : `${ sumInt }`
-})
 
-defineEmits([ 'remove' ])
+const totalFractional = computed(() =>
+  weightInteger.value === null || weightInteger.value === ''
+    ? +weightFractional.value * quantity.value
+    : (weightInteger.value * 6 + +weightFractional.value) * quantity.value
+)
+const sumInt = computed(() => Math.floor(totalFractional.value / 6))
+const fractional = computed(() => totalFractional.value % 6)
+
+const sumIntFormatted = computed(() => sumInt.value !== 0 ? `${sumInt.value} ` : '')
+const fractionalFormatted = computed(() => fractional.value !== 0 ? `${fractional.value}/6` : '')
+
+const subtotal = computed(() => !quantity.value ? '' : `${sumIntFormatted.value}${fractionalFormatted.value}`)
+
+defineEmits(['remove'])
 </script>
 
 <template>
   <div class="bag-item">
-    <slot />
+    <div class="handle">
+      <IconDraggable class="handle__icon" />
+    </div>
     <input class="bag-item__input" type="text" name="name" placeholder="item" v-model="name">
-    <input class="bag-item__input" type="number" name="quantity" placeholder="quantity" v-model="quantity">
+    <input class="bag-item__input"
+           type="number"
+           name="quantity"
+           placeholder="quantity"
+           v-model="quantity"
+    >
     <input class="bag-item__input text-align-right" type="number" name="weight" placeholder="weightInteger"
            v-model="weightInteger">
     <select class="bat-item__select" name="weightFractional" v-model="weightFractional">
@@ -44,6 +59,18 @@ defineEmits([ 'remove' ])
 </template>
 
 <style scoped lang="scss">
+// todo
+.handle {
+  background-color: white;
+  border-radius: 5px;
+  cursor: grab;
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .bag-item {
   display: grid;
   grid-template-columns: 30px 1fr 20% 45px 45px 20% 30px;

@@ -27,7 +27,7 @@ import AppBag from '@/components/bag/AppBag.vue'
 }
 
 .main {
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .footer {

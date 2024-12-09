@@ -11,15 +11,20 @@ export const useBagStore = defineStore('bag', () => {
   ])
 
   const bagTotal = computed(() => {
-    const frac = bag.value.reduce((item, nextItem) => {
-      return item.weightInteger * 6 + item.weightFractional
-    })
+    // const frac = bag.value.reduce((item, nextItem) => {
+    //   return item.weightInteger * 6 + item.weightFractional
+    // })
+
+    return 1
 
     return frac // @todo
   })
 
   const remove = (id) => {
-    bag.value.splice(bag.value.findIndex((item) => item.id === id), 1)
+    bag.value.splice(
+      bag.value.findIndex((item) => item.id === id),
+      1
+    )
   }
 
   const append = () => {
@@ -27,12 +32,14 @@ export const useBagStore = defineStore('bag', () => {
       id: +new Date(),
       name: null,
       quantity: null,
-      weight: null
+      weightInteger: null,
+      weightFractional: 0
     })
   }
 
   const cleanBag = () => {
-    bag.value = []
+    // todo почитать как чистить ref
+    bag.value.splice(0)
   }
 
   return { bag, bagTotal, remove, append, cleanBag }

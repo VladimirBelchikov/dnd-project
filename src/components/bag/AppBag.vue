@@ -12,7 +12,15 @@ const bagStore = useBagStore()
 
 const sortableItem = ref('sortableItem')
 const sortable = useSortable(sortableItem, bagStore.bag, {
-  // handle: '.handle'
+  handle: '.handle'
+})
+
+onUpdated(() => {
+  if(bagStore.bag.length === 0) {
+    sortable.stop()
+  } else {
+    sortable.start()
+  }
 })
 
 </script>
@@ -30,26 +38,22 @@ const sortable = useSortable(sortableItem, bagStore.bag, {
         v-model:quantity="item.quantity"
         :key="item.id"
         @remove="bagStore.remove(item.id)"
-      >
-        <div class="handle">
-          <IconDraggable class="handle__icon" />
-        </div>
-      </BagItem>
+      />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.handle {
-  background-color: white;
-  border-radius: 5px;
-  cursor: grab;
-
-  &__icon {
-    width: 100%;
-    height: 100%;
-  }
-}
+//.handle {
+//  background-color: white;
+//  border-radius: 5px;
+//  cursor: grab;
+//
+//  &__icon {
+//    width: 100%;
+//    height: 100%;
+//  }
+//}
 
 .empty-bag {
   display: flex;
@@ -66,6 +70,12 @@ const sortable = useSortable(sortableItem, bagStore.bag, {
     display: flex;
     flex-direction: column;
     gap: 15px;
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
   }
 }
 </style>
