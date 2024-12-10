@@ -8,24 +8,29 @@ interface IBag {
   quantity: number
   weightInteger: number
   weightFractional: number
+  isAllow: boolean
 }
 
 export const useBagStore = defineStore('bag', () => {
   const bag: Ref<IBag[]> = ref<IBag[]>([
-    { id: 1, name: 'Дрова', quantity: 2, weightInteger: 2, weightFractional: 0 },
-    { id: 2, name: 'Мотыга', quantity: 4, weightInteger: 1, weightFractional: 3 },
-    { id: 3, name: 'Кирпичи', quantity: 6, weightInteger: 16, weightFractional: 0 },
-    { id: 4, name: 'Металлолом', quantity: 3, weightInteger: 3, weightFractional: 2 },
-    { id: 5, name: 'Детали', quantity: 3, weightInteger: 6, weightFractional: 1 }
+    // { id: 1, name: 'Дрова', quantity: 2, weightInteger: 2, weightFractional: 0, isAllow: true },
+    // { id: 2, name: 'Мотыга', quantity: 4, weightInteger: 1, weightFractional: 3, isAllow: true },
+    // { id: 3, name: 'Кирпичи', quantity: 6, weightInteger: 16, weightFractional: 0, isAllow: true },
+    // { id: 4, name: 'Металлолом', quantity: 3, weightInteger: 3, weightFractional: 2, isAllow: true },
+    // { id: 5, name: 'Детали', quantity: 3, weightInteger: 6, weightFractional: 1, isAllow: true }
   ])
 
   const totalFractional = computed<number>(
     () => bag.value.reduce(
-      (currentSum, item) =>
-        currentSum + (item.weightInteger === null
-          ? +item.weightFractional * item.quantity
-          : (item.weightInteger * 6 + +item.weightFractional) * item.quantity),
-      0
+      (currentSum, item) => {
+        if (item.isAllow) {
+          return currentSum + (item.weightInteger === null
+            ? +item.weightFractional * item.quantity
+            : (item.weightInteger * 6 + +item.weightFractional) * item.quantity)
+        } else {
+          return currentSum
+        }
+      }, 0
     )
   )
 
@@ -44,7 +49,8 @@ export const useBagStore = defineStore('bag', () => {
       name: null,
       quantity: null,
       weightInteger: null,
-      weightFractional: 0
+      weightFractional: 0,
+      isAllow: true
     })
   }
 

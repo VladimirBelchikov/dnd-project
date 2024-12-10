@@ -4,8 +4,6 @@ import { useSortable } from '@vueuse/integrations/useSortable'
 import { useBagStore } from '@/stores/bag'
 
 import BagItem from '@/components/bag/BagItem.vue'
-import BagHeader from '@/components/bag/BagHeader.vue'
-
 
 const bagStore = useBagStore()
 
@@ -27,7 +25,6 @@ onUpdated(() => {
 <template>
   <div v-if="bagStore.bag.length === 0" class="empty-bag">You have no items in bag</div>
   <div v-else class="bag">
-<!--    <BagHeader />-->
     <div class="bag__items" ref="sortableItem">
       <BagItem
         v-for="item in bagStore.bag"
@@ -35,6 +32,7 @@ onUpdated(() => {
         v-model:weightInteger="item.weightInteger"
         v-model:weightFractional="item.weightFractional"
         v-model:quantity="item.quantity"
+        v-model:isAllow="item.isAllow"
         :key="item.id"
         @remove="bagStore.remove(item.id)"
       />

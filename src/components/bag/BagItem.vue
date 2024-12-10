@@ -8,6 +8,7 @@ const name = defineModel('name', { default: '' })
 const weightInteger = defineModel('weightInteger', { default: 0 })
 const weightFractional = defineModel('weightFractional', { required: true, default: 0 })
 const quantity = defineModel('quantity', { required: true, default: 0 })
+const isAllow = defineModel('isAllow', { required: true, default: true })
 
 
 const totalFractional = computed(() =>
@@ -34,11 +35,12 @@ defineEmits(['remove'])
         v-model="name"
       >
     </div>
-    <div class="field is-show">
+    <div class="field is-allow">
       <VueToggles
         class="bag-item__check"
-        :value="true"
         :width="50"
+        :value="isAllow"
+        v-model="isAllow"
       />
     </div>
     <div class="field quantity">
@@ -89,42 +91,10 @@ defineEmits(['remove'])
 
 
 <style scoped lang="scss">
-.sortable {
-  grid-area: sortable;
-}
-
-.name {
-  grid-area: name;
-}
-
-.is-show {
-  grid-area: is-show;
-}
-
-.quantity {
-  grid-area: quantity;
-}
-
-.w-integer {
-  grid-area: w-integer;
-}
-
-.w-fractional {
-  grid-area: w-fractional;
-}
-
-.subtotal {
-  grid-area: subtotal;
-}
-
-.remove {
-  grid-area: remove;
-}
-
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  //display: flex;
+  //flex-direction: column;
+  //gap: 3px;
 
   & > span {
     font-size: 12px;
@@ -137,7 +107,7 @@ defineEmits(['remove'])
   grid-template-columns:
     30px 2fr minmax(30px, 1fr) 45px 45px minmax(60px, 80px) 50px 30px;
   grid-template-areas:
-      'sortable name quantity w-integer w-fractional subtotal is-show remove';
+      'sortable name quantity w-integer w-fractional subtotal is-allow remove';
   gap: 10px;
   padding: 3px;
   border: 1px solid gray;
@@ -149,15 +119,20 @@ defineEmits(['remove'])
     grid-template-columns: 30px 50px minmax(30px, 1fr) minmax(30px, 1fr) 35px minmax(60px, 80px) 30px;
     grid-template-areas:
       'sortable name name name name name remove'
-      'sortable is-show quantity w-integer w-fractional subtotal remove';
+      'sortable is-allow quantity w-integer w-fractional subtotal remove';
     gap: 7px;
     font-size: 14px;
   }
 
   &__handler {
+    max-height: 30px;
     background-color: white;
     border-radius: var(--default-border-radius);
     cursor: grab;
+
+    @media screen and (max-width: 576px) {
+      max-height: none;
+    }
   }
 
   &__handler-icon {
@@ -167,10 +142,11 @@ defineEmits(['remove'])
 
   &__check {
     width: 30px;
-    height: 30px;
+    height: 100% !important;
   }
-
+ 
   &__input {
+    height: 100%;
     width: 100%;
     padding: 5px;
     font-size: inherit;
@@ -184,6 +160,8 @@ defineEmits(['remove'])
   }
 
   &__select {
+    width: 100%;
+    height: 100%;
     padding: 5px;
     font-size: inherit;
     border-radius: var(--default-border-radius);
@@ -204,5 +182,37 @@ defineEmits(['remove'])
     cursor: pointer;
     height: 100%;
   }
+}
+
+.sortable {
+  grid-area: sortable;
+}
+
+.name {
+  grid-area: name;
+}
+
+.is-allow {
+  grid-area: is-allow;
+}
+
+.quantity {
+  grid-area: quantity;
+}
+
+.w-integer {
+  grid-area: w-integer;
+}
+
+.w-fractional {
+  grid-area: w-fractional;
+}
+
+.subtotal {
+  grid-area: subtotal;
+}
+
+.remove {
+  grid-area: remove;
 }
 </style>

@@ -10,7 +10,8 @@ const { bagTotal } = storeToRefs(useBagStore())
     <div
       class="header__total"
     >
-      Total weight: {{ bagTotal || 0 }}</div>
+      Total weight: {{ bagTotal || 0 }}
+    </div>
   </header>
 </template>
 

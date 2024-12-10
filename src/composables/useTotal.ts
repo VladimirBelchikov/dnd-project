@@ -10,9 +10,6 @@ export default function useTotal(totalFractional: ComputedRef) {
     computed(() => totalSumInt.value !== 0 ? `${totalSumInt.value} ` : '')
   const fractionalFormatted =
     computed(() => fractional.value !== 0 ? `${fractional.value}/6` : '')
-  const bagTotal =
-    computed(() => `${sumIntFormatted.value}${fractionalFormatted.value}`)
 
-
-  return bagTotal
+  return computed(() => `${sumIntFormatted.value}${fractionalFormatted.value}`)
 }
