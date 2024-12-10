@@ -2,6 +2,7 @@
 import { computed, defineModel } from 'vue'
 import IconDraggable from '@/components/icons/IconDraggable.vue'
 import useTotal from '@/composables/useTotal'
+import { VueToggles } from 'vue-toggles'
 
 const name = defineModel('name', { default: '' })
 const weightInteger = defineModel('weightInteger', { default: 0 })
@@ -21,63 +22,134 @@ defineEmits(['remove'])
 
 <template>
   <div class="bag-item">
-    <div class="bag-item__handler">
+    <div class="bag-item__handler sortable">
       <IconDraggable class="bag-item__handler-icon" />
     </div>
-    <input
-      class="bag-item__input"
-      type="text"
-      name="name"
-      placeholder="item"
-      v-model="name"
-    >
-    <input
-      class="bag-item__input text-align-right"
-      type="number"
-      name="quantity"
-      placeholder="quantity"
-      v-model="quantity"
-    >
-    <input
-      class="bag-item__input text-align-right"
-      type="number"
-      name="weight"
-      placeholder="weightInteger"
-      v-model="weightInteger">
-    <select
-      class="bag-item__select text-align-right"
-      name="weightFractional"
-      v-model.number="weightFractional"
-    >
-      <option value="0">0</option>
-      <option value="1">1/6</option>
-      <option value="2">2/6</option>
-      <option value="3">3/6</option>
-      <option value="4">4/6</option>
-      <option value="5">5/6</option>
-    </select>
-    <input
-      class="bag-item__input"
-      type="text"
-      name="subtotal"
-      placeholder="subtotal"
-      :value="subtotal"
-      readonly
-    >
-    <button class="bag-item__remove-button" @click="$emit('remove')">X</button>
+    <div class="field name">
+      <input
+        class="bag-item__input"
+        type="text"
+        name="name"
+        placeholder="Item"
+        v-model="name"
+      >
+    </div>
+    <div class="field is-show">
+      <VueToggles
+        class="bag-item__check"
+        :value="true"
+        :width="50"
+      />
+    </div>
+    <div class="field quantity">
+      <input
+        class="bag-item__input"
+        type="number"
+        name="quantity"
+        placeholder="Quantity"
+        v-model="quantity"
+      >
+    </div>
+    <div class="field w-integer">
+      <input
+        class="bag-item__input"
+        type="number"
+        name="weight"
+        placeholder="Encumbrance"
+        v-model="weightInteger"
+      >
+    </div>
+    <div class="field w-fractional">
+      <select
+        class="bag-item__select"
+        name="weightFractional"
+        v-model.number="weightFractional"
+      >
+        <option value="0">-/-</option>
+        <option value="1">1/6</option>
+        <option value="2">2/6</option>
+        <option value="3">3/6</option>
+        <option value="4">4/6</option>
+        <option value="5">5/6</option>
+      </select>
+    </div>
+    <div class="field subtotal">
+      <input
+        class="bag-item__input "
+        type="text"
+        name="subtotal"
+        placeholder="Subtotal"
+        :value="subtotal"
+        readonly
+      >
+    </div>
+    <button class="bag-item__remove-button remove" @click="$emit('remove')">X</button>
   </div>
 </template>
 
 
 <style scoped lang="scss">
+.sortable {
+  grid-area: sortable;
+}
+
+.name {
+  grid-area: name;
+}
+
+.is-show {
+  grid-area: is-show;
+}
+
+.quantity {
+  grid-area: quantity;
+}
+
+.w-integer {
+  grid-area: w-integer;
+}
+
+.w-fractional {
+  grid-area: w-fractional;
+}
+
+.subtotal {
+  grid-area: subtotal;
+}
+
+.remove {
+  grid-area: remove;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  & > span {
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
 .bag-item {
   display: grid;
   grid-template-columns:
-    30px 2fr minmax(30px, 1fr) 45px 45px minmax(60px, 1fr) 30px;
+    30px 2fr minmax(30px, 1fr) 45px 45px minmax(60px, 80px) 50px 30px;
+  grid-template-areas:
+      'sortable name quantity w-integer w-fractional subtotal is-show remove';
   gap: 10px;
+  padding: 3px;
+  border: 1px solid gray;
+  border-radius: var(--default-border-radius);
   font-size: 16px;
 
+
   @media screen and (max-width: 576px) {
+    grid-template-columns: 30px 50px minmax(30px, 1fr) minmax(30px, 1fr) 35px minmax(60px, 80px) 30px;
+    grid-template-areas:
+      'sortable name name name name name remove'
+      'sortable is-show quantity w-integer w-fractional subtotal remove';
     gap: 7px;
     font-size: 14px;
   }
@@ -91,6 +163,11 @@ defineEmits(['remove'])
   &__handler-icon {
     width: 100%;
     height: 100%;
+  }
+
+  &__check {
+    width: 30px;
+    height: 30px;
   }
 
   &__input {
@@ -125,6 +202,7 @@ defineEmits(['remove'])
     background-color: teal;
     outline: none;
     cursor: pointer;
+    height: 100%;
   }
 }
 </style>

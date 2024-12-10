@@ -27,7 +27,7 @@ onUpdated(() => {
 <template>
   <div v-if="bagStore.bag.length === 0" class="empty-bag">You have no items in bag</div>
   <div v-else class="bag">
-    <BagHeader />
+<!--    <BagHeader />-->
     <div class="bag__items" ref="sortableItem">
       <BagItem
         v-for="item in bagStore.bag"
