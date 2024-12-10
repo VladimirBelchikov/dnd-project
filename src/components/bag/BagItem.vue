@@ -39,7 +39,6 @@ defineEmits(['remove'])
       <VueToggles
         class="bag-item__check"
         :width="50"
-        :value="isAllow"
         v-model="isAllow"
       />
     </div>
