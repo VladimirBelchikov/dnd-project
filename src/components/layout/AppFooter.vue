@@ -1,5 +1,5 @@
 <script setup>
-import { useBagStore } from '@/stores/bag.js'
+import { useBagStore } from '@/stores/bag.ts'
 
 const bagStore = useBagStore()
 </script>
@@ -12,12 +12,12 @@ const bagStore = useBagStore()
 </template>
 
 <style scoped lang="scss">
+
 .footer {
   position: relative;
   display: flex;
   flex-direction: row;
   gap: 20px;
-  height: 50px;
   padding: 10px;
 
   &:before {
@@ -33,8 +33,21 @@ const bagStore = useBagStore()
 
   & > button {
     width: 100%;
+    font-size: 18px;
+    font-weight: 500;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--default-border-radius);
+    //color: var(--default-text-color)
+  }
+
+  &__options {
+    width: 20px;
+    height: 100%;
+
+    & > svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

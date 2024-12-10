@@ -1,22 +1,21 @@
-<script setup>
-import { nextTick, onBeforeUpdate, onUpdated, ref } from 'vue'
+<script setup lang="ts">
+import { onUpdated, useTemplateRef } from 'vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { useBagStore } from '@/stores/bag.js'
+import { useBagStore } from '@/stores/bag'
 
 import BagItem from '@/components/bag/BagItem.vue'
 import BagHeader from '@/components/bag/BagHeader.vue'
-import IconDraggable from '@/components/icons/IconDraggable.vue'
 
 
 const bagStore = useBagStore()
 
-const sortableItem = ref('sortableItem')
+const sortableItem = useTemplateRef('sortableItem')
 const sortable = useSortable(sortableItem, bagStore.bag, {
-  handle: '.handle'
+  handle: '.bag-item__handler'
 })
 
 onUpdated(() => {
-  if(bagStore.bag.length === 0) {
+  if (bagStore.bag.length === 0) {
     sortable.stop()
   } else {
     sortable.start()
@@ -44,17 +43,6 @@ onUpdated(() => {
 </template>
 
 <style scoped lang="scss">
-//.handle {
-//  background-color: white;
-//  border-radius: 5px;
-//  cursor: grab;
-//
-//  &__icon {
-//    width: 100%;
-//    height: 100%;
-//  }
-//}
-
 .empty-bag {
   display: flex;
   justify-content: center;
@@ -70,12 +58,6 @@ onUpdated(() => {
     display: flex;
     flex-direction: column;
     gap: 15px;
-  }
-
-  &__empty {
-    display: flex;
-    justify-content: center;
-    font-size: 32px;
   }
 }
 </style>

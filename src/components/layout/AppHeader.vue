@@ -1,12 +1,16 @@
 <script setup>
-import { useBagStore } from '@/stores/bag.js'
+import { useBagStore } from '@/stores/bag.ts'
+import { storeToRefs } from 'pinia'
 
-const bagStore = useBagStore()
+const { bagTotal } = storeToRefs(useBagStore())
 </script>
 
 <template>
   <header class="header">
-    <div>{{ bagStore.bagTotal }}</div>
+    <div
+      class="header__total"
+    >
+      Total weight: {{ bagTotal || 0 }}</div>
   </header>
 </template>
 
@@ -15,7 +19,7 @@ const bagStore = useBagStore()
   position: relative;
   display: flex;
   justify-content: center;
-  height: 50px;
+  align-items: center;
 
   &:before {
     content: '';
@@ -25,6 +29,13 @@ const bagStore = useBagStore()
     top: 0;
     bottom: 0;
     background-color: teal;
+  }
+
+  &__total {
+    position: relative;
+    font-size: 20px;
+    color: #FFFFFF;
+    z-index: 1;
   }
 }
 </style>

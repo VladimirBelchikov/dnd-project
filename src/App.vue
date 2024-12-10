@@ -16,20 +16,14 @@ import AppBag from '@/components/bag/AppBag.vue'
 
 <style scoped lang="scss">
 .app-wrapper {
-  display: grid;
-  grid-template-rows: 50px 1fr 50px;
-  gap: 20px;
   height: 100vh;
-}
-
-.header {
-
+  display: grid;
+  grid-template-rows: 50px 1fr 60px;
+  gap: 20px;
 }
 
 .main {
   overflow-y: auto;
-}
-
-.footer {
+  overflow-x: hidden;
 }
 </style>
