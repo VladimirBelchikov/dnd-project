@@ -91,17 +91,6 @@ defineEmits(['remove'])
 
 
 <style scoped lang="scss">
-.field {
-  //display: flex;
-  //flex-direction: column;
-  //gap: 3px;
-
-  & > span {
-    font-size: 12px;
-    line-height: 1;
-  }
-}
-
 .bag-item {
   display: grid;
   grid-template-columns:
@@ -144,7 +133,7 @@ defineEmits(['remove'])
     width: 30px;
     height: 100% !important;
   }
- 
+
   &__input {
     height: 100%;
     width: 100%;

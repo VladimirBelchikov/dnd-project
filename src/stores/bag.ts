@@ -37,10 +37,11 @@ export const useBagStore = defineStore('bag', () => {
   const bagTotal = useTotal(totalFractional)
 
   const remove = (id: number) => {
-    bag.value.splice(
-      bag.value.findIndex((item) => item.id === id),
-      1
-    )
+    if (confirm('Are you sure you want to remove item from bag?'))
+      bag.value.splice(
+        bag.value.findIndex((item) => item.id === id),
+        1
+      )
   }
 
   const append = () => {
@@ -55,7 +56,7 @@ export const useBagStore = defineStore('bag', () => {
   }
 
   const cleanBag = () => {
-    bag.value.splice(0)
+    if (confirm('Are you sure you want to clean your bag?')) bag.value.splice(0)
   }
 
   return { bag, bagTotal, remove, append, cleanBag }
