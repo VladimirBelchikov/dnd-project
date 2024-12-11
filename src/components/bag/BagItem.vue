@@ -3,6 +3,7 @@ import { computed, defineModel } from 'vue'
 import IconDraggable from '@/components/icons/IconDraggable.vue'
 import useTotal from '@/composables/useTotal'
 import { VueToggles } from 'vue-toggles'
+import AppInput from '@/components/UI/AppInput.vue'
 
 const name = defineModel('name', { default: '' })
 const weightInteger = defineModel('weightInteger', { default: 0 })
@@ -27,38 +28,38 @@ defineEmits(['remove'])
       <IconDraggable class="bag-item__handler-icon" />
     </div>
     <div class="field name">
-      <input
+      <AppInput
         class="bag-item__input"
         type="text"
         name="name"
         placeholder="Item"
         v-model="name"
-      >
+      />
     </div>
     <div class="field is-allow">
       <VueToggles
+        checkedBg="var(--color-ochre)"
         class="bag-item__check"
         :width="50"
         v-model="isAllow"
       />
     </div>
     <div class="field quantity">
-      <input
+      <AppInput
         class="bag-item__input"
         type="number"
         name="quantity"
         placeholder="Quantity"
         v-model="quantity"
-      >
+      />
     </div>
     <div class="field w-integer">
-      <input
-        class="bag-item__input"
+      <AppInput
         type="number"
         name="weight"
         placeholder="Encumbrance"
         v-model="weightInteger"
-      >
+      />
     </div>
     <div class="field w-fractional">
       <select
@@ -75,14 +76,13 @@ defineEmits(['remove'])
       </select>
     </div>
     <div class="field subtotal">
-      <input
-        class="bag-item__input "
+      <AppInput
         type="text"
         name="subtotal"
         placeholder="Subtotal"
-        :value="subtotal"
+        v-model="subtotal"
         readonly
-      >
+      />
     </div>
     <button class="bag-item__remove-button remove" @click="$emit('remove')">X</button>
   </div>
@@ -98,7 +98,7 @@ defineEmits(['remove'])
       'sortable name quantity w-integer w-fractional subtotal is-allow remove';
   gap: 10px;
   padding: 3px;
-  border: 1px solid gray;
+  border: 1px solid var(--color-ochre);
   border-radius: var(--default-border-radius);
   font-size: 16px;
 
@@ -114,7 +114,7 @@ defineEmits(['remove'])
 
   &__handler {
     max-height: 30px;
-    background-color: white;
+    background-color: var(--color-light-brown);
     border-radius: var(--default-border-radius);
     cursor: grab;
 
@@ -131,20 +131,6 @@ defineEmits(['remove'])
   &__check {
     width: 30px;
     height: 100% !important;
-  }
-
-  &__input {
-    height: 100%;
-    width: 100%;
-    padding: 5px;
-    font-size: inherit;
-    border: none;
-    border-radius: var(--default-border-radius);
-    outline: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    text-overflow: ellipsis;
   }
 
   &__select {
@@ -165,7 +151,7 @@ defineEmits(['remove'])
     border: none;
     border-radius: var(--default-border-radius);
     color: white;
-    background-color: teal;
+    background-color: var(--color-light-brown);
     outline: none;
     cursor: pointer;
     height: 100%;
